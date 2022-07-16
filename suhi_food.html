@@ -12,6 +12,8 @@
     <!--Full Page-->
     <div class="container">
         
+        <!--TEST TEST TESTING!!!!-->
+        
         <!--Top Section-->
         <div class="nav-wrapper">
             <!--Navigation Bar-->
@@ -97,10 +99,13 @@
         spreadsheet.innerHTML = "";
         csv.shift();
         csv.forEach(function(row){
-            spreadsheet.innerHTML += "<tr>" +
+            console.log(row);
+            //!!!!!!!!!!CHANGE DIV NAV-LINKS TO BUTTONS AND CREATE BELOW CONDITION SET TO BUTTON PRESS, ALLOWS ONE HTML PAGE INSTEAD OF ALL CATEGORIES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (row.field2 == "Food Assistance"){
+                spreadsheet.innerHTML += "<tr>" +
                 "<td>" + row.field2 + "</td>" +
                 "<td>" + row.field3 + "</td>" +
-                "<td>" + row.field4 + "</td>" +
+                "<td>" + row.field4.toString() + "</td>" +
                 "<td>" + row.field5 + "</td>" +
                 "<td>" + row.field6 + "</td>" +
                 "<td>" + row.field7 + "</td>" +
@@ -108,8 +113,11 @@
                 "<td>" + row.field9 + "</td>" +
                 "<td>" + row.field10 + "</td>" +
                 "</tr>";
+            }
         });
     });
+
+
 </script>
 
 </html>
