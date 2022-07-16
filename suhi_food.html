@@ -5,7 +5,7 @@
     <title>FOOD</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="suhi.css">
-    <script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
+    <script src="papaparse.min.js"></script>
 </head>
 
 <body>
@@ -63,12 +63,13 @@
     <div class="content-wrapper">
         <!--Table-->
         <div class="table_section">
-            <table>
+            <table class = "table table_sortable">
                 <thead>
                     <tr>
+                        <th>New or Old</th>
                         <th>Category</th>
                         <th>Name</th>
-                        <th>Contact Person</th>
+                        <th>Contact</th>
                         <th>Number</th>
                         <th>Location</th>
                         <th>Web/Email Address</th>
@@ -83,6 +84,9 @@
             </table>
         </div>
     </div>
+    
+    <script src="tablesort.js"></script>
+
 </body>
 
 <script>
@@ -91,33 +95,62 @@
     
     spreadsheet.innerHTML = "<p>Loading...</p>";
 
-    //See https://www.npmjs.com/package/csvtojson#browser-usage for csv to json library (added above)
-    fetch(url).then(result=>result.text()).then(function(csvtext){
-        return csv().fromString(csvtext);
-    }).then(function(csv){
-        //spreadsheet.innerHTML = "<code>" + JSON.stringify(csv) + "</code>";
-        spreadsheet.innerHTML = "";
-        csv.shift();
-        csv.forEach(function(row){
-            console.log(row);
-            //!!!!!!!!!!CHANGE DIV NAV-LINKS TO BUTTONS AND CREATE BELOW CONDITION SET TO BUTTON PRESS, ALLOWS ONE HTML PAGE INSTEAD OF ALL CATEGORIES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (row.field2 == "Food Assistance"){
-                spreadsheet.innerHTML += "<tr>" +
-                "<td>" + row.field2 + "</td>" +
-                "<td>" + row.field3 + "</td>" +
-                "<td>" + row.field4.toString() + "</td>" +
-                "<td>" + row.field5 + "</td>" +
-                "<td>" + row.field6 + "</td>" +
-                "<td>" + row.field7 + "</td>" +
-                "<td>" + row.field8 + "</td>" +
-                "<td>" + row.field9 + "</td>" +
-                "<td>" + row.field10 + "</td>" +
-                "</tr>";
-            }
-        });
+    Papa.parse(url, {
+        download: true,
+        header: true,
+        complete: (results) => {
+            const data = results.data;
+            //clear "load" bar
+            spreadsheet.innerHTML = "";
+
+            //add each row as table elements
+            data.forEach(function(row){
+                //console.log(row);
+                //!!!!!!!!!!CHANGE DIV NAV-LINKS TO BUTTONS AND CREATE BELOW CONDITION SET TO BUTTON PRESS, ALLOWS ONE HTML PAGE INSTEAD OF ALL CATEGORIES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Food Assistance
+                //A Little of Everything
+                //Housing
+                //Job Training
+                //Behavioral Health
+                //Case Management
+                //Transportation
+                //Medical
+                //Medication
+                //Domestic, Sexual, and Gender Violence
+                //ID
+                //Insurance
+                //Legal
+                //Substance Abuse
+                //Parenting
+                //Family
+                //Utilities
+                //Clothing
+                //Emergency
+                //Amenities
+                //Mutual Aid
+                //Financial
+                //Unemployment
+                //Disabilities
+                //""
+                //Food
+                //...
+                //if (row.field2 == "Food Assistance"){
+                    spreadsheet.innerHTML += "<tr>" +
+                    "<td>" + row.New_or_Old + "</td>" +
+                    "<td>" + row.Category + "</td>" +
+                    "<td>" + row.Name + "</td>" +
+                    "<td>" + row.Contact + "</td>" +
+                    "<td>" + row.Number + "</td>" +
+                    "<td>" + row.Location + "</td>" +
+                    "<td>" + row.Web_or_Email + "</td>" +
+                    "<td>" + row.Services + "</td>" +
+                    "<td>" + row.Notes + "</td>" +
+                    "<td>" + row.Hours + "</td>" +
+                    "</tr>";
+                //}
+            });
+        }
     });
-
-
 </script>
 
 </html>
